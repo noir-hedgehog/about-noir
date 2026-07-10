@@ -28,4 +28,5 @@ The package includes the standard animation states and 16 clockwise look directi
 
 - Default idle: Noir lies comfortably on his belly.
 - Blink rhythm: two gentle blinks during each idle loop.
-- Hover: Noir rises from the resting pose, stands briefly, then settles back down.
+- Hover: Noir switches to an upright head-scratch interaction, then returns to resting.
+- Look directions: Noir follows the Codex Computer Use cursor rather than ordinary mouse movement.
