@@ -4,6 +4,10 @@ Noir is a custom Codex pet: a sweet, quietly mischievous black-and-cream hedgeho
 
 ![Noir animation overview](docs/noir-contact-sheet.png)
 
+## Interactive preview
+
+Play with Noir's mouse tracking, hover, drag, and task states at [Noir Motion Lab](https://noir-hedgehog.github.io/about-noir/).
+
 ## Install
 
 Copy the packaged pet into your Codex pets directory:
