@@ -23,3 +23,9 @@ Restart Codex if Noir does not appear immediately.
 - Cell size: `192 × 208`
 
 The package includes the standard animation states and 16 clockwise look directions.
+
+## Behavior
+
+- Default idle: Noir lies comfortably on his belly.
+- Blink rhythm: two gentle blinks during each idle loop.
+- Hover: Noir rises from the resting pose, stands briefly, then settles back down.
