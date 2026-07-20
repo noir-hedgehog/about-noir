@@ -4,6 +4,10 @@ Noir is a custom Codex pet: a sweet, quietly mischievous black-and-cream hedgeho
 
 ![Noir animation overview](docs/noir-contact-sheet.png)
 
+## Interactive preview
+
+Play with Noir's mouse tracking, hover, drag, and task states at [Noir Motion Lab](https://noir-hedgehog.github.io/about-noir/).
+
 ## Install
 
 Copy the packaged pet into your Codex pets directory:
@@ -23,3 +27,10 @@ Restart Codex if Noir does not appear immediately.
 - Cell size: `192 × 208`
 
 The package includes the standard animation states and 16 clockwise look directions.
+
+## Behavior
+
+- Default idle: Noir lies comfortably on his belly.
+- Blink rhythm: two gentle blinks during each idle loop.
+- Hover: Noir switches to an upright head-scratch interaction, then returns to resting.
+- Look directions: Noir follows the Codex Computer Use cursor rather than ordinary mouse movement.

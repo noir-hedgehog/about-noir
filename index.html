@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#171512" />
+    <meta
+      name="description"
+      content="Noir Motion Lab — 在浏览器里直接体验 Noir 的鼠标方向、hover、拖动和完整状态动画。"
+    />
+    <title>Noir Motion Lab</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="page-glow page-glow-one" aria-hidden="true"></div>
+    <div class="page-glow page-glow-two" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Noir Motion Lab 首页">
+        <span class="brand-mark">N</span>
+        <span>
+          <strong>Noir</strong>
+          <small>Motion Lab</small>
+        </span>
+      </a>
+      <div class="header-badges" aria-label="宠物规格">
+        <span>Codex Pet v2</span>
+        <span>9 states</span>
+        <span>16 directions</span>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="page-title">
+        <div class="hero-copy">
+          <p class="eyebrow">Interactive pet preview</p>
+          <h1 id="page-title">来逗一会儿 <em>Noir</em></h1>
+          <p class="hero-lede">
+            这不是录好的演示。移动鼠标、停在 Noir 身上，或直接把他拖来拖去——页面会实时读取同一张 Codex 宠物图集。
+          </p>
+        </div>
+
+        <div class="preview-layout">
+          <article class="stage-card">
+            <div class="stage-toolbar">
+              <div>
+                <span class="live-dot" aria-hidden="true"></span>
+                <span id="status-label">正在休息</span>
+              </div>
+              <button class="ghost-button" id="reset-position" type="button">回到中间</button>
+            </div>
+
+            <div class="motion-stage" id="motion-stage" aria-label="Noir 互动预览区域">
+              <div class="stage-grid" aria-hidden="true"></div>
+              <div class="compass" aria-hidden="true">
+                <span class="compass-n">N</span>
+                <span class="compass-e">E</span>
+                <span class="compass-s">S</span>
+                <span class="compass-w">W</span>
+              </div>
+              <div class="pointer-orb" id="pointer-orb" aria-hidden="true"></div>
+
+              <div
+                class="pet"
+                id="pet"
+                role="img"
+                tabindex="0"
+                aria-label="Noir，一只可以 hover 和拖动的刺猬宠物"
+              >
+                <div class="pet-aura" aria-hidden="true"></div>
+                <div class="sprite-viewport" aria-hidden="true">
+                  <img
+                    id="spritesheet"
+                    src="noir/spritesheet.webp"
+                    width="1536"
+                    height="2288"
+                    draggable="false"
+                    alt=""
+                  />
+                </div>
+                <span class="drag-hint">拖动我</span>
+              </div>
+
+              <div class="stage-instructions">
+                <span><i class="mouse-icon" aria-hidden="true"></i>移动鼠标，看向不同方向</span>
+                <span><i class="hover-icon" aria-hidden="true"></i>Hover Noir，挠挠头</span>
+                <span><i class="drag-icon" aria-hidden="true"></i>按住并拖动，左右跑动</span>
+              </div>
+            </div>
+
+            <div class="telemetry" aria-live="polite">
+              <div>
+                <span>当前状态</span>
+                <strong id="state-value">idle</strong>
+              </div>
+              <div>
+                <span>图集位置</span>
+                <strong id="atlas-value">row 0 · frame 1</strong>
+              </div>
+              <div>
+                <span>视线方向</span>
+                <strong id="direction-value">正面</strong>
+              </div>
+            </div>
+          </article>
+
+          <aside class="controls-card" aria-labelledby="controls-title">
+            <div class="controls-heading">
+              <p class="eyebrow">State controls</p>
+              <h2 id="controls-title">叫 Noir 表演一下</h2>
+              <p>这些状态在 Codex 里由任务进度触发，在这里可以直接点播。</p>
+            </div>
+
+            <div class="state-buttons" id="state-buttons">
+              <button type="button" data-state="waving">
+                <span class="state-icon">👋</span>
+                <span><strong>打个招呼</strong><small>waving</small></span>
+              </button>
+              <button type="button" data-state="jumping">
+                <span class="state-icon">✦</span>
+                <span><strong>挠挠头</strong><small>hover</small></span>
+              </button>
+              <button type="button" data-state="waiting">
+                <span class="state-icon">…</span>
+                <span><strong>等待确认</strong><small>waiting</small></span>
+              </button>
+              <button type="button" data-state="running">
+                <span class="state-icon">⌁</span>
+                <span><strong>认真工作</strong><small>running</small></span>
+              </button>
+              <button type="button" data-state="review">
+                <span class="state-icon">◎</span>
+                <span><strong>检查结果</strong><small>review</small></span>
+              </button>
+              <button type="button" data-state="failed">
+                <span class="state-icon">×</span>
+                <span><strong>出错了</strong><small>failed</small></span>
+              </button>
+            </div>
+
+            <button class="rest-button" id="rest-button" type="button">
+              <span>让 Noir 休息</span>
+              <small>回到 prone idle</small>
+            </button>
+          </aside>
+        </div>
+      </section>
+
+      <section class="behavior-section" aria-labelledby="behavior-title">
+        <div class="section-heading">
+          <p class="eyebrow">Trigger map</p>
+          <h2 id="behavior-title">每个动作，什么时候出现？</h2>
+        </div>
+        <div class="behavior-grid">
+          <article>
+            <span class="behavior-number">01</span>
+            <h3>趴着休息</h3>
+            <p>没有任务或交互时的默认状态，循环呼吸并更频繁地眨眼。</p>
+            <code>idle</code>
+          </article>
+          <article>
+            <span class="behavior-number">02</span>
+            <h3>看向鼠标</h3>
+            <p>页面按指针与 Noir 的夹角，实时选择 16 个方向中的一帧。</p>
+            <code>looking</code>
+          </article>
+          <article>
+            <span class="behavior-number">03</span>
+            <h3>站着挠头</h3>
+            <p>Hover 时播放五帧挠头动作三轮，和 Codex 当前的播放节奏一致。</p>
+            <code>hover</code>
+          </article>
+          <article>
+            <span class="behavior-number">04</span>
+            <h3>左右跑动</h3>
+            <p>拖动 Noir 时根据横向移动方向，在左右跑动动画间切换。</p>
+            <code>dragging</code>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Noir Motion Lab · Built from the live Codex pet atlas</p>
+      <a href="https://github.com/noir-hedgehog/about-noir">View on GitHub ↗</a>
+    </footer>
+  </body>
+</html>
